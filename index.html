@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Question ❤️</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffeef8;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+        h1 { color: #d63384; margin-bottom: 40px; padding: 0 20px; min-height: 100px; }
+        .buttons { display: flex; align-items: center; justify-content: center; gap: 30px; }
+        
+        button {
+            padding: 20px 40px;
+            font-size: 24px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        #yesBtn { background-color: #ff4d6d; color: white; z-index: 10; }
+        #noBtn { background-color: #adb5bd; color: white; }
+        .success-msg { display: none; color: #ff4d6d; }
+        .success-msg h1 { font-size: 50px; }
+    </style>
+</head>
+<body>
+
+    <div id="quiz-container">
+        <h1 id="question">Do you want to celebrate this 2 year 1 month anniversary with me? 🌹</h1>
+        <div class="buttons">
+            <button id="yesBtn" onclick="celebrate()">Yes</button>
+            <button id="noBtn" onclick="handleNo()">No</button>
+        </div>
+    </div>
+
+    <div id="celebration" class="success-msg">
+        <h1>Yay! I knew you'd say yes! ❤️<br>Anh iu vo nhieu, minh len meet an banh xem phim nhoooooooo 🥂</h1>
+    </div>
+
+    <script>
+        let yesScale = 1;
+        let questionIndex = 0;
+
+        const questions = [
+            "Are you sure? 🤨",
+            "Would you please do it for me? 🥺",
+            "Do you even love me anymore? 💔",
+            "Think about all the good times! 📸",
+            "Even after 2 years and 1 month?? 😱",
+            "I'm going to tell your mom... 📞",
+            "Is that your final answer? 🧐",
+            "I'm literally crying right now. 😭",
+            "What if I buy you nuggets? 🍗",
+            "Just click the big red button, please. 🔴",
+            "You're doing this on purpose now, aren't you? 😤"
+        ];
+
+        function handleNo() {
+            const questionElement = document.getElementById('question');
+            if (questionIndex < questions.length) {
+                questionElement.innerText = questions[questionIndex];
+                questionIndex++;
+            } else {
+                questionElement.innerText = "You have no choice now! 😂";
+            }
+
+            yesScale += 0.6;
+            const yesBtn = document.getElementById('yesBtn');
+            yesBtn.style.transform = `scale(${yesScale})`;
+
+            const noBtn = document.getElementById('noBtn');
+            const x = Math.random() * 40 - 20;
+            const y = Math.random() * 40 - 20;
+            noBtn.style.transform = `translate(${x}px, ${y}px)`;
+        }
+
+        function celebrate() {
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('celebration').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
