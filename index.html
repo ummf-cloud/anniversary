@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Special Question ❤️</title>
+    <title>Our 2 Year 1 Month Anniversary ❤️</title>
     <style>
         body, html {
             height: 100%;
             margin: 0;
             font-family: 'Arial', sans-serif;
+            background-color: #fce4ec; /* Soft pink background */
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        /* Slideshow Background */
-        .background-slideshow {
+        /* Container for the scattered photos */
+        .photo-cluster {
             position: fixed;
             top: 0;
             left: 0;
@@ -25,65 +26,60 @@
             z-index: -1;
         }
 
-        .bg-image {
+        .photo {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            opacity: 0;
-            transition: opacity 2s ease-in-out;
+            width: 250px; /* Adjust size of photos here */
+            height: auto;
+            border: 10px solid white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
         }
 
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.3); /* Darkens background slightly to pop text */
-            z-index: 0;
-        }
+        /* Positioning the 5 photos in clusters */
+        .p1 { top: 10%; left: 10%; transform: rotate(-15deg); }
+        .p2 { top: 15%; right: 10%; transform: rotate(10deg); }
+        .p3 { bottom: 15%; left: 15%; transform: rotate(5deg); }
+        .p4 { bottom: 10%; right: 15%; transform: rotate(-10deg); }
+        .p5 { top: 40%; left: 5%; transform: rotate(-5deg); }
 
         #quiz-container, #celebration {
             position: relative;
             z-index: 10;
             text-align: center;
             padding: 40px;
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            max-width: 85%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            max-width: 400px;
         }
 
-        h1 { color: #d63384; font-size: 2.2rem; margin-bottom: 30px; }
-        .buttons { display: flex; align-items: center; justify-content: center; gap: 30px; }
+        h1 { color: #d63384; font-size: 1.8rem; margin-bottom: 30px; }
+        .buttons { display: flex; align-items: center; justify-content: center; gap: 20px; }
         
         button {
-            padding: 20px 40px;
-            font-size: 1.5rem;
+            padding: 15px 30px;
+            font-size: 1.2rem;
             border: none;
-            border-radius: 15px;
+            border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: bold;
         }
         
-        #yesBtn { background-color: #ff4d6d; color: white; }
+        #yesBtn { background-color: #ff4d6d; color: white; z-index: 20; }
         #noBtn { background-color: #6c757d; color: white; }
         .success-msg { display: none; }
     </style>
 </head>
 <body>
 
-    <div class="background-slideshow">
-        <div class="bg-image" style="background-image: url('image1.jpg'); opacity: 1;"></div>
-        <div class="bg-image" style="background-image: url('image2.jpeg');"></div>
-        <div class="bg-image" style="background-image: url('image3.jpeg');"></div>
-        <div class="bg-image" style="background-image: url('image4.jpg');"></div>
-        <div class="bg-image" style="background-image: url('image5.jpg');"></div>
+    <div class="photo-cluster">
+        <img src="image1.jpg" class="photo p1" alt="Memory 1">
+        <img src="image2.jpg" class="photo p2" alt="Memory 2">
+        <img src="image3.jpg" class="photo p3" alt="Memory 3">
+        <img src="image4.jpg" class="photo p4" alt="Memory 4">
+        <img src="image5.jpg" class="photo p5" alt="Memory 5">
     </div>
-    <div class="overlay"></div>
 
     <div id="quiz-container">
         <h1 id="question">Do you want to celebrate this 2 year 1 month anniversary with me? 🌹</h1>
@@ -94,21 +90,11 @@
     </div>
 
     <div id="celebration" class="success-msg">
-        <h1 style="font-size: 3.5rem;">Yay! Happy Anniversary! ❤️</h1>
-        <p style="font-size: 1.8rem; color: #d63384;">I love you! 🥂</p>
+        <h1>Yay! Happy Anniversary! ❤️</h1>
+        <p style="font-size: 1.5rem; color: #d63384;">I love you to the moon and back!</p>
     </div>
 
     <script>
-        // Slideshow Logic
-        const slides = document.querySelectorAll('.bg-image');
-        let currentSlide = 0;
-        setInterval(() => {
-            slides[currentSlide].style.opacity = 0;
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].style.opacity = 1;
-        }, 4000);
-
-        // Guilt-Trip Logic
         let yesScale = 1;
         let questionIndex = 0;
         const questions = [
@@ -118,7 +104,7 @@
             "Think about all the good times! 📸",
             "Even after 2 years and 1 month?? 😱",
             "I'm going to tell your mom... 📞",
-            "Is that your final answer? 🧐",
+            "Look at those photos! How could you? 😭",
             "I'm literally crying right now. 😭",
             "What if I buy you nuggets? 🍗",
             "You're doing this on purpose now! 😤"
