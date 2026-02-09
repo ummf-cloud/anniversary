@@ -16,7 +16,6 @@
             justify-content: center;
         }
 
-        /* Floating Hearts Animation */
         .heart {
             position: fixed;
             color: #ffb7c5;
@@ -61,7 +60,7 @@
             border: 2px solid #ffccd5;
         }
 
-        h1 { color: #ff4d6d; font-size: 1.4rem; margin: 15px 0; min-height: 50px; }
+        h1 { color: #ff4d6d; font-size: 1.4rem; margin: 15px 0; min-height: 60px; }
         
         .buttons { 
             display: flex; 
@@ -82,17 +81,15 @@
             font-weight: bold;
         }
         
-        #yesBtn { background-color: #ff4d6d; color: white; width: 100%; max-width: 250px; }
+        #yesBtn { background-color: #ff4d6d; color: white; width: 100%; max-width: 250px; z-index: 30; }
         #noBtn { background-color: #adb5bd; color: white; }
         .success-msg { display: none; }
 
-        .gif-wrapper {
-            width: 100%;
+        .bubu-gif {
+            width: 200px;
             height: 200px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 10px;
+            object-fit: contain;
+            border-radius: 15px;
         }
     </style>
 </head>
@@ -106,9 +103,7 @@
     </div>
 
     <div id="quiz-container">
-        <div id="gif-display" class="gif-wrapper">
-            <div class="tenor-gif-embed" data-postid="15905101" data-share-method="host" data-aspect-ratio="1.15" data-width="100%"><a href="https://tenor.com/view/bubu-dudu-bubu-dudu-waiting-gif-15905101">Waiting Sticker</a></div>
-        </div>
+        <img id="main-gif" class="bubu-gif" src="https://media.tenor.com/7S8p_36_v98AAAAM/bubu-dudu-waiting.gif" alt="Bubu Dudu">
         <h1 id="question">Will you be my Valentine? 🌹</h1>
         <div class="buttons">
             <button id="yesBtn" onclick="celebrate()">YES</button>
@@ -117,42 +112,38 @@
     </div>
 
     <div id="celebration" class="success-msg">
-        <div class="gif-wrapper">
-            <div class="tenor-gif-embed" data-postid="13874597465072197683" data-share-method="host" data-aspect-ratio="1.00855" data-width="100%"><a href="https://tenor.com/view/kiss-gif-13874597465072197683">Kiss Sticker</a></div>
-        </div>
+        <img class="bubu-gif" src="https://media.tenor.com/Onf_K9Xp680AAAAM/kiss-sticker.gif" alt="Bubu Dudu Kiss">
         <h1>YAY! I LOVE YOU! ❤️</h1>
         <p style="color: #666; font-style: italic; margin-top: 15px;">
             co gioi bam No tiep xem, a phat bang cay roi thit cua anh 😤
         </p>
     </div>
 
-    <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
-
     <script>
         let yesScale = 1;
         let noCount = 0;
 
-        // Bubu Dudu GIF and Text pairs
+        // Bubu Dudu GIF and Text stages
         const stages = [
             {
                 text: "Wait, what? Are you sure? 🤨",
-                gifID: "11545199859570185966" // Bubu Dudu shocked
+                gif: "https://media.tenor.com/T0_7_v9_m78AAAAM/bubu-dudu-shocked.gif"
             },
             {
                 text: "But I prepared everything! 🥺",
-                gifID: "15905104" // Bubu Dudu sad
+                gif: "https://media.tenor.com/mO_T-z5V9uUAAAAM/bubu-dudu-sad.gif"
             },
             {
-                text: "Don't be like that... 💔",
-                gifID: "22332610" // Bubu Dudu crying
+                text: "Don't do this to me... 💔",
+                gif: "https://media.tenor.com/839CqC7T8hMAAAAM/bubu-dudu-crying.gif"
             },
             {
                 text: "I'm literally begging you! 😭",
-                gifID: "16315591" // Bubu Dudu begging
+                gif: "https://media.tenor.com/S-K-H-X-X-X-X/bubu-dudu-begging.gif"
             },
             {
-                text: "Last chance... or else! 😤",
-                gifID: "21683100" // Bubu Dudu angry/punching
+                text: "Okay, now you're just being mean! 😤",
+                gif: "https://media.tenor.com/H1B0p3H9H_AAAAAM/bubu-dudu-angry.gif"
             }
         ];
 
@@ -169,19 +160,14 @@
 
         function handleNo() {
             const questionElement = document.getElementById('question');
-            const gifDisplay = document.getElementById('gif-display');
+            const mainGif = document.getElementById('main-gif');
 
             if (noCount < stages.length) {
-                // Update Text
+                // Update Text and GIF
                 questionElement.innerText = stages[noCount].text;
-                
-                // Update GIF
-                gifDisplay.innerHTML = `<div class="tenor-gif-embed" data-postid="${stages[noCount].gifID}" data-share-method="host" data-aspect-ratio="1.0" data-width="100%"></div>`;
-                
-                // Re-run Tenor script to render the new GIF
-                if (window.Tenor) {
-                    window.Tenor.CheckElements();
-                }
+                mainGif.src = stages[noCount].gif;
+            } else {
+                questionElement.innerText = "Just click YES already!! 😡";
             }
             
             noCount++;
@@ -190,7 +176,7 @@
             yesScale += 0.5;
             document.getElementById('yesBtn').style.transform = `scale(${yesScale})`;
             
-            // Move No button if they keep trying
+            // Runaway No button logic
             if (noCount > 2) {
                 moveNoButton();
             }
@@ -210,9 +196,6 @@
         function celebrate() {
             document.getElementById('quiz-container').style.display = 'none';
             document.getElementById('celebration').style.display = 'block';
-            if (window.Tenor) {
-                window.Tenor.CheckElements();
-            }
         }
     </script>
 </body>
