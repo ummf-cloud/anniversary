@@ -39,15 +39,15 @@
 
         .photo {
             position: absolute;
-            width: 180px;
-            border: 8px solid white;
+            width: 150px;
+            border: 6px solid white;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
-        .p1 { top: 8%; left: 8%; transform: rotate(-12deg); }
-        .p2 { top: 12%; right: 8%; transform: rotate(15deg); }
-        .p3 { bottom: 12%; left: 10%; transform: rotate(8deg); }
-        .p4 { bottom: 8%; right: 12%; transform: rotate(-15deg); }
+        .p1 { top: 5%; left: 5%; transform: rotate(-12deg); }
+        .p2 { top: 8%; right: 5%; transform: rotate(15deg); }
+        .p3 { bottom: 8%; left: 5%; transform: rotate(8deg); }
+        .p4 { bottom: 5%; right: 5%; transform: rotate(-15deg); }
 
         #quiz-container, #celebration {
             position: relative;
@@ -57,23 +57,23 @@
             background: rgba(255, 255, 255, 0.98);
             border-radius: 40px;
             box-shadow: 0 15px 35px rgba(255, 77, 109, 0.2);
-            max-width: 400px;
+            width: 350px;
             border: 2px solid #ffccd5;
         }
 
-        h1 { color: #ff4d6d; font-size: 1.6rem; margin: 15px 0; }
+        h1 { color: #ff4d6d; font-size: 1.4rem; margin: 15px 0; min-height: 50px; }
         
         .buttons { 
             display: flex; 
+            flex-direction: column;
             align-items: center; 
             justify-content: center; 
-            gap: 20px; 
+            gap: 15px; 
             margin-top: 20px;
-            min-height: 120px; 
         }
         
         button {
-            padding: 15px 30px;
+            padding: 12px 25px;
             font-size: 1.1rem;
             border: none;
             border-radius: 20px;
@@ -82,32 +82,21 @@
             font-weight: bold;
         }
         
-        #yesBtn { background-color: #ff4d6d; color: white; }
-        #noBtn { background-color: #adb5bd; color: white; position: relative; }
+        #yesBtn { background-color: #ff4d6d; color: white; width: 100%; max-width: 250px; }
+        #noBtn { background-color: #adb5bd; color: white; }
         .success-msg { display: none; }
 
-        /* Ensuring the Tenor embed fits nicely */
         .gif-wrapper {
-            width: 200px;
-            margin: 0 auto;
-            border-radius: 15px;
-            overflow: hidden;
+            width: 100%;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
-
-    <script>
-        setInterval(() => {
-            const heart = document.createElement("div");
-            heart.innerHTML = "❤️";
-            heart.classList.add("heart");
-            heart.style.left = Math.random() * 100 + "vw";
-            heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 4000);
-        }, 600);
-    </script>
 
     <div class="photo-cluster">
         <img src="image1.jpg" class="photo p1">
@@ -117,7 +106,7 @@
     </div>
 
     <div id="quiz-container">
-        <div class="gif-wrapper">
+        <div id="gif-display" class="gif-wrapper">
             <div class="tenor-gif-embed" data-postid="15905101" data-share-method="host" data-aspect-ratio="1.15" data-width="100%"><a href="https://tenor.com/view/bubu-dudu-bubu-dudu-waiting-gif-15905101">Waiting Sticker</a></div>
         </div>
         <h1 id="question">Will you be my Valentine? 🌹</h1>
@@ -142,27 +131,66 @@
     <script>
         let yesScale = 1;
         let noCount = 0;
-        const guiltTrips = [
-            "Are you sure? 🤨",
-            "Pwease? 🥺",
-            "Don't do this to Bubu... 💔",
-            "I'm gonna cry... 😭",
-            "Look at those photos! 🥀",
-            "Error: Wrong button pressed.",
-            "PRETTY PLEASE? ✨",
-            "Just click the big red one!"
+
+        // Bubu Dudu GIF and Text pairs
+        const stages = [
+            {
+                text: "Wait, what? Are you sure? 🤨",
+                gifID: "11545199859570185966" // Bubu Dudu shocked
+            },
+            {
+                text: "But I prepared everything! 🥺",
+                gifID: "15905104" // Bubu Dudu sad
+            },
+            {
+                text: "Don't be like that... 💔",
+                gifID: "22332610" // Bubu Dudu crying
+            },
+            {
+                text: "I'm literally begging you! 😭",
+                gifID: "16315591" // Bubu Dudu begging
+            },
+            {
+                text: "Last chance... or else! 😤",
+                gifID: "21683100" // Bubu Dudu angry/punching
+            }
         ];
+
+        // Background heart generator
+        setInterval(() => {
+            const heart = document.createElement("div");
+            heart.innerHTML = "❤️";
+            heart.classList.add("heart");
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 4000);
+        }, 600);
 
         function handleNo() {
             const questionElement = document.getElementById('question');
-            if (noCount < guiltTrips.length) {
-                questionElement.innerText = guiltTrips[noCount];
+            const gifDisplay = document.getElementById('gif-display');
+
+            if (noCount < stages.length) {
+                // Update Text
+                questionElement.innerText = stages[noCount].text;
+                
+                // Update GIF
+                gifDisplay.innerHTML = `<div class="tenor-gif-embed" data-postid="${stages[noCount].gifID}" data-share-method="host" data-aspect-ratio="1.0" data-width="100%"></div>`;
+                
+                // Re-run Tenor script to render the new GIF
+                if (window.Tenor) {
+                    window.Tenor.CheckElements();
+                }
             }
             
             noCount++;
-            yesScale += 0.45;
+            
+            // Make Yes button grow
+            yesScale += 0.5;
             document.getElementById('yesBtn').style.transform = `scale(${yesScale})`;
             
+            // Move No button if they keep trying
             if (noCount > 2) {
                 moveNoButton();
             }
@@ -182,6 +210,9 @@
         function celebrate() {
             document.getElementById('quiz-container').style.display = 'none';
             document.getElementById('celebration').style.display = 'block';
+            if (window.Tenor) {
+                window.Tenor.CheckElements();
+            }
         }
     </script>
 </body>
