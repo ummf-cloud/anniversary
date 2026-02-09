@@ -73,12 +73,21 @@
             border: none;
             border-radius: 20px;
             cursor: pointer;
-            transition: transform 0.2s ease;
             font-weight: bold;
         }
         
-        #yesBtn { background-color: #ff4d6d; color: white; }
-        #noBtn { background-color: #adb5bd; color: white; position: relative; }
+        #yesBtn { 
+            background-color: #ff4d6d; 
+            color: white; 
+            transition: transform 0.2s ease;
+        }
+
+        #noBtn { 
+            background-color: #adb5bd; 
+            color: white; 
+            position: relative; 
+        }
+
         .success-msg { display: none; }
         .cat-gif { width: 220px; border-radius: 15px; }
     </style>
@@ -118,7 +127,6 @@
             { text: "Pwease? 🥺", gif: "crying.gif" },
             { text: "Don't do this to me... 💔", gif: "begging.gif" },
             { text: "I'm gonna cry... 😭", gif: "angry.gif" },
-            { text: "You're breaking my heart! 🥀", gif: "angry.gif" },
             { text: "Okay, now you can't even catch me! 🏃‍♂️", gif: "angry.gif" }
         ];
 
@@ -136,24 +144,27 @@
         function handleNo() {
             const questionElement = document.getElementById('question');
             const mainGif = document.getElementById('main-gif');
+            const noBtn = document.getElementById('noBtn');
 
+            // 1. Update text and gif normally
             if (noCount < stages.length) {
                 questionElement.innerText = stages[noCount].text;
                 mainGif.src = baseUrl + stages[noCount].gif;
             }
             
+            // 2. Grow the YES button
             noCount++;
             yesScale += 0.5;
             document.getElementById('yesBtn').style.transform = `scale(${yesScale})`;
 
-            // If we've reached the final "No" state, move it immediately upon click
+            // 3. ONLY move the button if we are at or past the final stage
             if (noCount >= stages.length) {
                 moveNoButton();
             }
         }
 
-        // Teleporting only happens at the final stage
         function handleNoHover() {
+            // ONLY teleport on hover if she's already seen all questions
             if (noCount >= stages.length) {
                 moveNoButton();
             }
@@ -161,8 +172,12 @@
 
         function moveNoButton() {
             const noBtn = document.getElementById('noBtn');
+            // Remove any smooth transitions so it "snaps" away from her
+            noBtn.style.transition = 'none';
+            
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            
             noBtn.style.position = 'fixed';
             noBtn.style.left = x + 'px';
             noBtn.style.top = y + 'px';
