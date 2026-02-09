@@ -97,7 +97,7 @@
         <h1 id="question">Will you be my Valentine? 🌹</h1>
         <div class="buttons">
             <button id="yesBtn" onclick="celebrate()">YES</button>
-            <button id="noBtn" onmouseover="moveNoButton()" onclick="handleNo()">No</button>
+            <button id="noBtn" onmouseover="handleNoHover()" onclick="handleNo()">No</button>
         </div>
     </div>
 
@@ -118,9 +118,11 @@
             { text: "Pwease? 🥺", gif: "crying.gif" },
             { text: "Don't do this to me... 💔", gif: "begging.gif" },
             { text: "I'm gonna cry... 😭", gif: "angry.gif" },
-            { text: "You're breaking my heart! 🥀", gif: "angry.gif" }
+            { text: "You're breaking my heart! 🥀", gif: "angry.gif" },
+            { text: "Okay, now you can't even catch me! 🏃‍♂️", gif: "angry.gif" }
         ];
 
+        // Background heart generator
         setInterval(() => {
             const heart = document.createElement("div");
             heart.innerHTML = "❤️";
@@ -143,7 +145,18 @@
             noCount++;
             yesScale += 0.5;
             document.getElementById('yesBtn').style.transform = `scale(${yesScale})`;
-            if (noCount > 2) moveNoButton();
+
+            // If we've reached the final "No" state, move it immediately upon click
+            if (noCount >= stages.length) {
+                moveNoButton();
+            }
+        }
+
+        // Teleporting only happens at the final stage
+        function handleNoHover() {
+            if (noCount >= stages.length) {
+                moveNoButton();
+            }
         }
 
         function moveNoButton() {
