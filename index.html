@@ -57,7 +57,12 @@
             border-radius: 40px;
             box-shadow: 0 15px 35px rgba(255, 77, 109, 0.2);
             width: 350px;
+            min-height: 450px;
             border: 2px solid #ffccd5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         h1 { color: #ff4d6d; font-size: 1.4rem; margin: 15px 0; min-height: 60px; }
@@ -68,7 +73,7 @@
             align-items: center; 
             justify-content: center; 
             gap: 15px; 
-            margin-top: 20px;
+            width: 100%;
         }
         
         button {
@@ -81,7 +86,7 @@
             font-weight: bold;
         }
         
-        #yesBtn { background-color: #ff4d6d; color: white; width: 100%; max-width: 250px; z-index: 30; }
+        #yesBtn { background-color: #ff4d6d; color: white; width: 80%; z-index: 30; }
         #noBtn { background-color: #adb5bd; color: white; }
         .success-msg { display: none; }
 
@@ -89,7 +94,7 @@
             width: 200px;
             height: 200px;
             object-fit: contain;
-            border-radius: 15px;
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -103,7 +108,7 @@
     </div>
 
     <div id="quiz-container">
-        <img id="main-gif" class="bubu-gif" src="https://media.tenor.com/7S8p_36_v98AAAAM/bubu-dudu-waiting.gif" alt="Bubu Dudu">
+        <img id="main-gif" class="bubu-gif" src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueGZ3bmZ5ZzRreHhsc3R4eHhsc3R4eHhsc3R4eHhsc3R4ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/cLS1cfxvGOPVpf9g3y/giphy.gif" alt="Bubu Dudu">
         <h1 id="question">Will you be my Valentine? 🌹</h1>
         <div class="buttons">
             <button id="yesBtn" onclick="celebrate()">YES</button>
@@ -112,7 +117,7 @@
     </div>
 
     <div id="celebration" class="success-msg">
-        <img class="bubu-gif" src="https://media.tenor.com/Onf_K9Xp680AAAAM/kiss-sticker.gif" alt="Bubu Dudu Kiss">
+        <img class="bubu-gif" src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmZueGZ3bmZ5ZzRreHhsc3R4eHhsc3R4eHhsc3R4eHhsc3R4ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/KztT2c4u8mYYUiMKdJ/giphy.gif" alt="Bubu Dudu Kiss">
         <h1>YAY! I LOVE YOU! ❤️</h1>
         <p style="color: #666; font-style: italic; margin-top: 15px;">
             co gioi bam No tiep xem, a phat bang cay roi thit cua anh 😤
@@ -123,31 +128,29 @@
         let yesScale = 1;
         let noCount = 0;
 
-        // Bubu Dudu GIF and Text stages
         const stages = [
             {
                 text: "Wait, what? Are you sure? 🤨",
-                gif: "https://media.tenor.com/T0_7_v9_m78AAAAM/bubu-dudu-shocked.gif"
+                gif: "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExbTZub3B6eGZ3bmZ5ZzRreHhsc3R4eHhsc3R4eHhsc3R4eHhsc3R4ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/Y8SXB77J3gXInqR5m7/giphy.gif"
             },
             {
                 text: "But I prepared everything! 🥺",
-                gif: "https://media.tenor.com/mO_T-z5V9uUAAAAM/bubu-dudu-sad.gif"
+                gif: "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmZueGZ3bmZ5ZzRreHhsc3R4eHhsc3R4eHhsc3R4eHhsc3R4ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/BEob5zFkS9EUU/giphy.gif"
             },
             {
-                text: "Don't do this to me... 💔",
-                gif: "https://media.tenor.com/839CqC7T8hMAAAAM/bubu-dudu-crying.gif"
+                text: "Don't do this to Bubu... 💔",
+                gif: "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmZueGZ3bmZ5ZzRreHhsc3R4eHhsc3R4eHhsc3R4eHhsc3R4ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/OPU6wUKFt3Iyc/giphy.gif"
             },
             {
                 text: "I'm literally begging you! 😭",
-                gif: "https://media.tenor.com/S-K-H-X-X-X-X/bubu-dudu-begging.gif"
+                gif: "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmZueGZ3bmZ5ZzRreHhsc3R4eHhsc3R4eHhsc3R4eHhsc3R4ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/l7Y8E2v7F4bBvO2h8S/giphy.gif"
             },
             {
-                text: "Okay, now you're just being mean! 😤",
-                gif: "https://media.tenor.com/H1B0p3H9H_AAAAAM/bubu-dudu-angry.gif"
+                text: "Last chance... or else! 😤",
+                gif: "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmZueGZ3bmZ5ZzRreHhsc3R4eHhsc3R4eHhsc3R4eHhsc3R4ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/v9G3NGWp0ScmK29ukN/giphy.gif"
             }
         ];
 
-        // Background heart generator
         setInterval(() => {
             const heart = document.createElement("div");
             heart.innerHTML = "❤️";
@@ -163,31 +166,23 @@
             const mainGif = document.getElementById('main-gif');
 
             if (noCount < stages.length) {
-                // Update Text and GIF
                 questionElement.innerText = stages[noCount].text;
                 mainGif.src = stages[noCount].gif;
-            } else {
-                questionElement.innerText = "Just click YES already!! 😡";
             }
             
             noCount++;
-            
-            // Make Yes button grow
             yesScale += 0.5;
             document.getElementById('yesBtn').style.transform = `scale(${yesScale})`;
             
-            // Runaway No button logic
             if (noCount > 2) {
                 moveNoButton();
             }
         }
 
         function moveNoButton() {
-            if (noCount < 3) return; 
             const noBtn = document.getElementById('noBtn');
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-            
             noBtn.style.position = 'fixed';
             noBtn.style.left = x + 'px';
             noBtn.style.top = y + 'px';
@@ -195,7 +190,7 @@
 
         function celebrate() {
             document.getElementById('quiz-container').style.display = 'none';
-            document.getElementById('celebration').style.display = 'block';
+            document.getElementById('celebration').style.display = 'flex';
         }
     </script>
 </body>
