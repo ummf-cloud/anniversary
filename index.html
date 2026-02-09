@@ -10,53 +10,65 @@
             height: 100%;
             margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #fff0f3;
+            /* Added a subtle gradient to the pastel pink */
+            background: radial-gradient(circle, #fff0f3 0%, #ffdee5 100%);
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .heart {
+        /* Floating Hearts and Sparkles */
+        .heart, .sparkle {
             position: fixed;
-            color: #ffb7c5;
-            font-size: 20px;
             user-select: none;
             z-index: -1;
-            animation: float 4s linear infinite;
+            animation: floatUp 4s linear infinite;
         }
 
-        @keyframes float {
-            0% { transform: translateY(110vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) scale(0.5); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
         }
 
+        /* Background Photo Styles with Floating Animation */
         .photo-cluster img {
             position: absolute;
             width: 180px;
             border: 8px solid white;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 20px rgba(255, 182, 193, 0.4);
             z-index: -1;
+            /* Makes photos gently bob up and down */
+            animation: bobbing 3s ease-in-out infinite alternate;
         }
 
-        .p1 { top: 8%; left: 8%; transform: rotate(-12deg); }
-        .p2 { top: 12%; right: 8%; transform: rotate(15deg); }
-        .p3 { bottom: 12%; left: 10%; transform: rotate(8deg); }
-        .p4 { bottom: 8%; right: 12%; transform: rotate(-15deg); }
+        @keyframes bobbing {
+            from { transform: translateY(0) rotate(var(--rot)); }
+            to { transform: translateY(-15px) rotate(var(--rot)); }
+        }
+
+        /* Individual Photo Positions */
+        .p1 { top: 8%; left: 8%; --rot: -12deg; }
+        .p2 { top: 12%; right: 8%; --rot: 15deg; animation-delay: 0.5s !important; }
+        .p3 { bottom: 12%; left: 10%; --rot: 8deg; animation-delay: 1s !important; }
+        .p4 { bottom: 8%; right: 12%; --rot: -15deg; animation-delay: 1.5s !important; }
+        .p5 { top: 40%; left: 2%; --rot: 5deg; width: 150px !important; animation-delay: 2s !important; }
 
         #quiz-container, #celebration {
             position: relative;
             z-index: 10;
             text-align: center;
             padding: 40px;
-            background: rgba(255, 255, 255, 0.98);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px); /* Glossy glass effect */
             border-radius: 40px;
-            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.2);
+            box-shadow: 0 20px 50px rgba(255, 77, 109, 0.25);
             max-width: 400px;
-            border: 2px solid #ffccd5;
+            border: 3px solid #ffffff;
         }
 
-        h1 { color: #ff4d6d; font-size: 1.7rem; margin-bottom: 20px; min-height: 80px; }
+        h1 { color: #ff4d6d; font-size: 1.7rem; margin-bottom: 20px; min-height: 80px; text-shadow: 1px 1px 0px white; }
         
         .buttons { 
             display: flex; 
@@ -71,13 +83,14 @@
             padding: 15px 30px;
             font-size: 1.1rem;
             border: none;
-            border-radius: 20px;
+            border-radius: 25px;
             cursor: pointer;
             font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
         
         #yesBtn { 
-            background-color: #ff4d6d; 
+            background: linear-gradient(135deg, #ff4d6d 0%, #ff758f 100%);
             color: white; 
             transition: transform 0.2s ease;
         }
@@ -89,7 +102,7 @@
         }
 
         .success-msg { display: none; }
-        .cat-gif { width: 220px; border-radius: 15px; }
+        .cat-gif { width: 220px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
@@ -115,7 +128,7 @@
         <h1>YAY! ❤️</h1>
         <img src="https://raw.githubusercontent.com/ummf-cloud/anniversary/main/valentine.gif" class="cat-gif">
         <p style="font-size: 1.2rem; color: #ff4d6d; font-weight: bold; margin-top: 15px;">I knew you'd say yes!</p>
-        <p style="color: #666; font-style: italic;">Took you a while don't you, as long as my 😏. Happy Valentine my love!!! </p>
+        <p style="color: #666; font-style: italic; padding: 0 10px;">Took you a while don't you, as long as my 😏. Happy Valentine my love!!! </p>
     </div>
 
     <script>
@@ -131,41 +144,39 @@
             { text: "Now, you CANNOT reject my love", gif: "smirk.gif" }
         ];
 
-        // Background heart generator
+        // Background heart and sparkle generator
         setInterval(() => {
-            const heart = document.createElement("div");
-            heart.innerHTML = "❤️";
-            heart.classList.add("heart");
-            heart.style.left = Math.random() * 100 + "vw";
-            heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 4000);
-        }, 600);
+            const isHeart = Math.random() > 0.3;
+            const element = document.createElement("div");
+            element.innerHTML = isHeart ? "❤️" : "✨";
+            element.classList.add(isHeart ? "heart" : "sparkle");
+            element.style.left = Math.random() * 100 + "vw";
+            element.style.fontSize = (Math.random() * 15 + 15) + "px";
+            element.style.animationDuration = (Math.random() * 2 + 3) + "s";
+            if (!isHeart) element.style.color = "#ffd700"; // Golden sparkles
+            document.body.appendChild(element);
+            setTimeout(() => element.remove(), 4000);
+        }, 500);
 
         function handleNo() {
             const questionElement = document.getElementById('question');
             const mainGif = document.getElementById('main-gif');
-            const noBtn = document.getElementById('noBtn');
 
-            // 1. Update text and gif normally
             if (noCount < stages.length) {
                 questionElement.innerText = stages[noCount].text;
                 mainGif.src = baseUrl + stages[noCount].gif;
             }
             
-            // 2. Grow the YES button
             noCount++;
             yesScale += 0.5;
             document.getElementById('yesBtn').style.transform = `scale(${yesScale})`;
 
-            // 3. ONLY move the button if we are at or past the final stage
             if (noCount >= stages.length) {
                 moveNoButton();
             }
         }
 
         function handleNoHover() {
-            // ONLY teleport on hover if she's already seen all questions
             if (noCount >= stages.length) {
                 moveNoButton();
             }
@@ -173,12 +184,9 @@
 
         function moveNoButton() {
             const noBtn = document.getElementById('noBtn');
-            // Remove any smooth transitions so it "snaps" away from her
             noBtn.style.transition = 'none';
-            
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-            
             noBtn.style.position = 'fixed';
             noBtn.style.left = x + 'px';
             noBtn.style.top = y + 'px';
@@ -191,7 +199,7 @@
                 particleCount: 150,
                 spread: 70,
                 origin: { y: 0.6 },
-                colors: ['#ff4d6d', '#ffb7c5', '#ffffff']
+                colors: ['#ff4d6d', '#ffb7c5', '#ffffff', '#ffd700']
             });
         }
     </script>
